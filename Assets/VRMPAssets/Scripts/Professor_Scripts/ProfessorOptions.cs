@@ -14,7 +14,7 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Gravity;
 namespace XRMultiplayer
 {
     [DefaultExecutionOrder(100)]
-    public class PlayerOptions : MonoBehaviour
+    public class ProfessorOptions : MonoBehaviour
     {
         [SerializeField] InputActionReference m_ToggleMenuAction;
         [SerializeField] AudioMixer m_Mixer;
@@ -61,6 +61,7 @@ namespace XRMultiplayer
 
         private void Awake()
         {
+
             hostAsProf = player.GetComponent<HostAsProf>();
             m_VoiceChatManager = FindFirstObjectByType<VoiceChatManager>();
             m_MoveProvider = FindFirstObjectByType<DynamicMoveProvider>();
@@ -78,7 +79,7 @@ namespace XRMultiplayer
 
             ConnectOnline(false);
 
-            if (m_ToggleMenuAction != null)// && !hostAsProf.isProfessor)
+            if (m_ToggleMenuAction != null) // && hostAsProf.isProfessor)
                 m_ToggleMenuAction.action.performed += ctx => ToggleMenu();
             else
                 Utils.Log("No toggle menu action assigned to OptionsPanel", 1);
@@ -187,7 +188,7 @@ namespace XRMultiplayer
         /// <param name="overrideValue"></param>
         public void ToggleMenu(bool overrideToggle = false, bool overrideValue = false)
         {
-            if (overrideToggle) //&& !hostAsProf.isProfessor)
+            if (overrideToggle) //&& hostAsProf.isProfessor)
             {
                 gameObject.SetActive(overrideValue);
             }
@@ -200,11 +201,12 @@ namespace XRMultiplayer
 
         public void ToggleMenu()
         {
-            //if (!hostAsProf.isProfessor)
-            //    gameObject.SetActive(!gameObject.activeSelf);
-            //else
-            //    Debug.Log("Is Host");
-            gameObject.SetActive(!gameObject.activeSelf);
+
+            //Add something here to distinguish if the player is a professor maybe
+            if (hostAsProf.isProfessor)
+                gameObject.SetActive(!gameObject.activeSelf);
+            else
+                Debug.Log("Not a host");
         }
 
         public void LogOut()
@@ -304,7 +306,7 @@ namespace XRMultiplayer
         {
             float newTurnAmount = Mathf.Clamp(m_TurnProvider.turnAmount + (m_SnapTurnUpdateAmount * dir), m_MinMaxTurnAmount.x, m_MinMaxTurnAmount.y);
             m_TurnProvider.turnAmount = newTurnAmount;
-            m_SnapTurnText.text = $"{newTurnAmount}Â°";
+            m_SnapTurnText.text = $"{newTurnAmount}°";
         }
 
         public void ToggleTunnelingVignette(bool toggle)
@@ -323,3 +325,4 @@ namespace XRMultiplayer
         }
     }
 }
+
