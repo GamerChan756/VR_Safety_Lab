@@ -173,10 +173,11 @@ namespace XRMultiplayer
 
         public void TogglePanel(int panelID)
         {
-            for (int i = 0; i < m_Panels.Length; i++)
+            for (int i = 0; i < m_PanelToggles.Length; i++) //0-8
             {
-                m_PanelToggles[i].SetIsOnWithoutNotify(panelID == i);
-                m_Panels[i].SetActive(i == panelID);
+                m_PanelToggles[i].SetIsOnWithoutNotify(panelID == i%(m_Panels.Length)); //i % 5
+                if (i < m_Panels.Length) // i < 5 (0-4)
+                    m_Panels[i].SetActive(i == panelID); //As there are only 5 panels
             }
         }
 

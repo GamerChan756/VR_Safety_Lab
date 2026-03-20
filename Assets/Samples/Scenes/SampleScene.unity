@@ -20353,7 +20353,7 @@ PrefabInstance:
     - target: {fileID: 6204660889144888484, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
       propertyPath: m_PanelToggles.Array.size
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6204660889144888484, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
@@ -20364,7 +20364,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_PanelToggles.Array.data[5]'
       value: 
-      objectReference: {fileID: 531469287}
+      objectReference: {fileID: 704317979}
     - target: {fileID: 6204660889144888484, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
       propertyPath: 'm_PanelToggles.Array.data[6]'
