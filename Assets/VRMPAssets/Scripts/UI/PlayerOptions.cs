@@ -44,7 +44,9 @@ namespace XRMultiplayer
         [SerializeField] Slider m_OutputVolumeSlider;
         [SerializeField] Image m_LocalPlayerAudioVolume;
         [SerializeField] Image m_MutedIcon;
+        [SerializeField] Image m_MutedIconProf;
         [SerializeField] Image m_MicOnIcon;
+        [SerializeField] Image m_MicOnIconProf;
         [SerializeField] TMP_Text m_VoiceChatStatus;
 
         [Header("Player Options")]
@@ -162,7 +164,9 @@ namespace XRMultiplayer
                 m_ClientRoomPanel.SetActive(!XRINetworkPlayer.LocalPlayer.IsSessionOwner);
                 UpdateRoomName(XRINetworkGameManager.ConnectedRoomName.Value);
                 m_MutedIcon.enabled = false;
+                m_MutedIconProf.enabled = false;
                 m_MicOnIcon.enabled = true;
+                m_MicOnIconProf.enabled = true;
                 m_LocalPlayerAudioVolume.enabled = true;
             }
             else
@@ -255,7 +259,9 @@ namespace XRMultiplayer
         void MutedChanged(bool muted)
         {
             m_MutedIcon.enabled = muted;
+            m_MutedIconProf.enabled = muted;
             m_MicOnIcon.enabled = !muted;
+            m_MicOnIconProf.enabled = !muted;
             m_LocalPlayerAudioVolume.enabled = !muted;
             PlayerHudNotification.Instance.ShowText($"<b>Microphone: {(muted ? "OFF" : "ON")}</b>");
         }
