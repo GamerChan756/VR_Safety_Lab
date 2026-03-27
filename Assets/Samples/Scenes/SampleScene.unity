@@ -20393,6 +20393,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6204660889144888484, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
+      propertyPath: m_LocalPlayerAudioVolumeProf
+      value: 
+      objectReference: {fileID: 1286930469}
+    - target: {fileID: 6204660889144888484, guid: 77ac6b10722bcca4a8baf70e44d89e78,
+        type: 3}
       propertyPath: 'm_PanelToggles.Array.data[4]'
       value: 
       objectReference: {fileID: 531469287}
