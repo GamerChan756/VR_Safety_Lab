@@ -43,6 +43,7 @@ namespace XRMultiplayer
         [SerializeField] Slider m_InputVolumeSlider;
         [SerializeField] Slider m_OutputVolumeSlider;
         [SerializeField] Image m_LocalPlayerAudioVolume;
+        [SerializeField] Image m_LocalPlayerAudioVolumeProf;
         [SerializeField] Image m_MutedIcon;
         [SerializeField] Image m_MutedIconProf;
         [SerializeField] Image m_MicOnIcon;
@@ -139,10 +140,12 @@ namespace XRMultiplayer
             if (XRINetworkGameManager.Connected.Value)
             {
                 m_LocalPlayerAudioVolume.fillAmount = XRINetworkPlayer.LocalPlayer.playerVoiceAmp;
+                m_LocalPlayerAudioVolumeProf.fillAmount = XRINetworkPlayer.LocalPlayer.playerVoiceAmp;
             }
             else
             {
                 m_LocalPlayerAudioVolume.fillAmount = OfflinePlayerAvatar.voiceAmp.Value;
+                m_LocalPlayerAudioVolumeProf.fillAmount = OfflinePlayerAvatar.voiceAmp.Value;
             }
         }
 
@@ -168,6 +171,7 @@ namespace XRMultiplayer
                 m_MicOnIcon.enabled = true;
                 m_MicOnIconProf.enabled = true;
                 m_LocalPlayerAudioVolume.enabled = true;
+                m_LocalPlayerAudioVolumeProf.enabled = true;
             }
             else
             {
@@ -263,6 +267,7 @@ namespace XRMultiplayer
             m_MicOnIcon.enabled = !muted;
             m_MicOnIconProf.enabled = !muted;
             m_LocalPlayerAudioVolume.enabled = !muted;
+            m_LocalPlayerAudioVolumeProf.enabled = !muted;
             PlayerHudNotification.Instance.ShowText($"<b>Microphone: {(muted ? "OFF" : "ON")}</b>");
         }
 
