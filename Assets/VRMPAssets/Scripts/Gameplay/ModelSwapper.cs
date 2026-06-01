@@ -1,21 +1,23 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class ModelSwapper : NetworkBehaviour
 {
+    // variables exposed in editor
     [SerializeField] GameObject startModel;
     [SerializeField] GameObject fixedModel;
     [SerializeField] float repairTime = 10;
     [SerializeField] bool resetRepairTimeOnLeave = true;
 
-    float currentRepairTime = 0;
-    bool isFixed;
+    // back end variables
+    private float currentRepairTime = 0;
+    private bool isFixed; // used for whether the object is fixed on a given computer
+    private NetworkVariable<bool> netIsFixed = new NetworkVariable<bool>(); // used for syncronizing if its fixed across all players
 
-    NetworkVariable<bool> netIsFixed = new NetworkVariable<bool>();
-
-    public GameObject tool = null;
+    // whatever tool is currently being used to repair the model
+    // null if nothings being used.
+    private GameObject tool = null;
 
     
 
@@ -28,13 +30,13 @@ public class ModelSwapper : NetworkBehaviour
     }
 
     public override void OnNetworkSpawn () {
-        if (IsSessionOwner) {
+        if (IsSessionOwner) { // sets on host end
             netIsFixed.Value = false;
         }
-        else {
+        else { // sets up on client end
             netIsFixed.OnValueChanged += FixedChanged;
         }
-        Debug.Log (IsOwner + " " + IsSessionOwner);
+        //Debug.Log (IsOwner + " " + IsSessionOwner);
 
         base.OnNetworkSpawn ();
     }
@@ -42,31 +44,32 @@ public class ModelSwapper : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsSessionOwner) {
-            if (tool != null) {
-                currentRepairTime += Time.deltaTime;
-                if (currentRepairTime >= repairTime && !isFixed) {
+        if (IsSessionOwner) // ensures this logic is only run on the host
+        {
+            if (tool != null) {// runs if a tool is held up to the object
+                currentRepairTime += Time.deltaTime; // counts down until fully repaired
+                if (currentRepairTime >= repairTime && !isFixed) { // repairs the object and swaps the model
                     //if (!isFixed)
                     //    SetFixed (true);
                 
-                    SetFixed (true);
-                    netIsFixed.Value = true;
+                    SetFixed (true); // fixes it on the host
+                    netIsFixed.Value = true; // changes it on all the clients
                 
                 }
             }
             else if (resetRepairTimeOnLeave) {
-                currentRepairTime = 0;
+                currentRepairTime = 0; // if its set to reset when the tool leaves the object, then reset it
             }
-            Debug.Log ("AAAAAAA1!!!");
         }
     }
 
+    // callback called on clients when the host model swappers object is fixed
     private void FixedChanged (bool previous, bool current) {
         SetFixed (current);
     }
     
     
-
+    // sets whether the object is repaired on a given client
     private void SetFixed (bool isFixed) {
         this.isFixed = isFixed;
         startModel.SetActive (!isFixed);
@@ -74,6 +77,7 @@ public class ModelSwapper : NetworkBehaviour
     }
 
     private void OnTriggerStay (Collider other) {
+        // finds the tool the player is using for repairs
         if (other.GetComponent<RepairTool> () != null && tool == null)
         {
             tool = other.gameObject;
@@ -82,6 +86,7 @@ public class ModelSwapper : NetworkBehaviour
     }
 
     private void OnTriggerExit (Collider other) {
+        // detects if the tool leaves the object
         if (tool == other.gameObject) {
             tool = null;
         }
