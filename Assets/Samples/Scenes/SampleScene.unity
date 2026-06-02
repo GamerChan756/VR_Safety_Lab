@@ -22992,6 +22992,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ab7d38355e5ff4ea0e663d1ed07a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VRMP::LightGroup
+  lights:
+  - {fileID: 1907864019}
+  - {fileID: 1688889344}
+  - {fileID: 1688889343}
+  lightSwitches: []
+  autoPopulateLights: 0
+  autoPopulateSwitches: 1
 --- !u!4 &1646959203
 Transform:
   m_ObjectHideFlags: 0
@@ -24269,6 +24276,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4897b55569c73e54ca203a36bf3715cc, type: 3}
+--- !u!108 &1688889343 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: -206254283356321021, guid: 4897b55569c73e54ca203a36bf3715cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1688889342}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &1688889344 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: -1294892128559850198, guid: 4897b55569c73e54ca203a36bf3715cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1688889342}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1694426837
 GameObject:
   m_ObjectHideFlags: 0
