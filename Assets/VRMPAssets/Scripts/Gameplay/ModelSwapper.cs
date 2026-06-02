@@ -18,7 +18,7 @@ public class ModelSwapper : NetworkBehaviour
     // whatever tool is currently being used to repair the model
     // null if nothings being used.
     private GameObject tool = null;
-
+    private bool offlineMode = true;
     
 
 
@@ -30,21 +30,31 @@ public class ModelSwapper : NetworkBehaviour
     }
 
     public override void OnNetworkSpawn () {
+        offlineMode = false;
         if (IsSessionOwner) { // sets on host end
             netIsFixed.Value = false;
         }
         else { // sets up on client end
             netIsFixed.OnValueChanged += FixedChanged;
         }
+        SetFixed (netIsFixed.Value);
         //Debug.Log (IsOwner + " " + IsSessionOwner);
 
         base.OnNetworkSpawn ();
     }
 
+    public override void OnNetworkDespawn () {
+        offlineMode = true;
+        if (!IsSessionOwner) {
+            netIsFixed.OnValueChanged -= FixedChanged;
+        }
+        base.OnNetworkDespawn ();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (IsSessionOwner) // ensures this logic is only run on the host
+        if (IsSessionOwner || offlineMode) // ensures this logic is only run on the host
         {
             if (tool != null) {// runs if a tool is held up to the object
                 currentRepairTime += Time.deltaTime; // counts down until fully repaired
@@ -53,7 +63,8 @@ public class ModelSwapper : NetworkBehaviour
                     //    SetFixed (true);
                 
                     SetFixed (true); // fixes it on the host
-                    netIsFixed.Value = true; // changes it on all the clients
+                    if (!offlineMode)
+                        netIsFixed.Value = true; // changes it on all the clients
                 
                 }
             }
