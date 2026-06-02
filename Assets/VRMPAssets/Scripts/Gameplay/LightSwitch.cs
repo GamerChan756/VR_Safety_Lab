@@ -15,6 +15,8 @@ public class LightSwitch : NetworkBehaviour
     private NetworkVariable<bool> networkedIsPower = new NetworkVariable<bool> ();
     private bool shouldBroadcastChange = false;
 
+    
+
     NetworkObject nobj;
 
     public override void OnNetworkSpawn () {

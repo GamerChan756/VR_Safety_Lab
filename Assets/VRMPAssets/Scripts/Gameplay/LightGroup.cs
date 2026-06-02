@@ -16,6 +16,9 @@ public class LightGroup : MonoBehaviour
     private bool powered = false;
     public bool Powered => powered;
 
+    [SerializeField] LightSwitch circuitBreakerSwitch = null;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,19 +29,32 @@ public class LightGroup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int numOn = 0;
-        for (int i = 0; i < lightSwitches.Length; i++) {
-            if (lightSwitches[i].isPowered) {
-                numOn++;
+        if (HasPower ()) {
+            int numOn = 0;
+            for (int i = 0; i < lightSwitches.Length; i++) {
+                if (lightSwitches[i].isPowered) {
+                    numOn++;
+                }
             }
-        }
 
-        // by basing whether the light switch on is odd, we guarentee that fliping a single light switch will toggle the
-        // lights, no matter the state of the other switches
-        powered = (numOn % 2) == 1;
+            // by basing whether the light switch on is odd, we guarentee that fliping a single light switch will toggle the
+            // lights, no matter the state of the other switches
+            powered = (numOn % 2) == 1;
+        }
+        else {
+            powered = false;
+        }
 
         for (int i = 0; i < lights.Length; i++) {
             lights[i].enabled = powered;
         }
+    }
+
+    public bool HasPower () {
+        if (circuitBreakerSwitch == null) {
+            return true;
+        }
+
+        return circuitBreakerSwitch.isPowered;
     }
 }
