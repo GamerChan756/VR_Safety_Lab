@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class LightSwitch : NetworkBehaviour
 {
-    public bool isOn = false;
+    public bool isPowered = false;
 
     
     // offline mode exists to ensure the object functions
@@ -12,7 +12,7 @@ public class LightSwitch : NetworkBehaviour
     // this way you can potentially use it in a hub world without it causing problems
     private bool offlineMode = true;
 
-    private NetworkVariable<bool> networkedIsOn = new NetworkVariable<bool> ();
+    private NetworkVariable<bool> networkedIsPower = new NetworkVariable<bool> ();
     private bool shouldBroadcastChange = false;
 
     NetworkObject nobj;
@@ -20,12 +20,12 @@ public class LightSwitch : NetworkBehaviour
     public override void OnNetworkSpawn () {
         offlineMode = false;
         if (IsOwner) {
-            networkedIsOn.Value = isOn;
+            networkedIsPower.Value = isPowered;
         }
         else {
-            isOn = networkedIsOn.Value;
+            isPowered = networkedIsPower.Value;
         }
-        networkedIsOn.OnValueChanged += UpdateIsOn;
+        networkedIsPower.OnValueChanged += UpdateIsPowered;
         base.OnNetworkSpawn ();
     }
 
@@ -34,7 +34,7 @@ public class LightSwitch : NetworkBehaviour
 
         //if (!IsSessionOwner) {
         //}
-        networkedIsOn.OnValueChanged -= UpdateIsOn;
+        networkedIsPower.OnValueChanged -= UpdateIsPowered;
         base.OnNetworkDespawn ();
     }
 
@@ -50,7 +50,7 @@ public class LightSwitch : NetworkBehaviour
         if (shouldBroadcastChange) {
             if (IsOwner) {
                 // broadcasts the light toggle once it's authorized to.
-                networkedIsOn.Value = isOn;
+                networkedIsPower.Value = isPowered;
                 shouldBroadcastChange = false;
             }
             else {
@@ -58,12 +58,12 @@ public class LightSwitch : NetworkBehaviour
         }
     }
 
-    private void UpdateIsOn (bool privous, bool current) {
-        isOn = current;
+    private void UpdateIsPowered (bool privous, bool current) {
+        isPowered = current;
     }
 
     public void ToggleLight () {
-        isOn = !isOn;
+        isPowered = !isPowered;
         nobj.RequestOwnership ();// requests to be the authoritative copy of the game object
         shouldBroadcastChange = true; // queues the game object to broadcast the light toggle to other users once it's authorized to
     }

@@ -28,7 +28,7 @@ public class LightGroup : MonoBehaviour
     {
         int numOn = 0;
         for (int i = 0; i < lightSwitches.Length; i++) {
-            if (lightSwitches[i].isOn) {
+            if (lightSwitches[i].isPowered) {
                 numOn++;
             }
         }
