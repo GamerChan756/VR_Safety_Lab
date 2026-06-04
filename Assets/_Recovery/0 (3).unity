@@ -5787,7 +5787,7 @@ PrefabInstance:
     - target: {fileID: 2750775559596856525, guid: 3594b54cb469c154fb54795aad16424e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.8740005
+      value: -2.8700008
       objectReference: {fileID: 0}
     - target: {fileID: 2750775559596856525, guid: 3594b54cb469c154fb54795aad16424e,
         type: 3}
@@ -6127,7 +6127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 550163953
+  GlobalObjectIdHash: 1946526063
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 3
@@ -19743,11 +19743,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BreakerSwitch
       objectReference: {fileID: 0}
-    - target: {fileID: 6752134420595524258, guid: 3594b54cb469c154fb54795aad16424e,
-        type: 3}
-      propertyPath: isPowered
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20645,7 +20640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1215438341
+  GlobalObjectIdHash: 2750655671
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -22916,7 +22911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3754938590
+  GlobalObjectIdHash: 863789890
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 3
@@ -28309,7 +28304,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 20
+  m_Intensity: 4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -30235,7 +30230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1348057314
+  GlobalObjectIdHash: 3751450692
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -31169,7 +31164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2161777594
+  GlobalObjectIdHash: 2337416379
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 3
@@ -34858,6 +34853,16 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2920406981
       objectReference: {fileID: 0}
+    - target: {fileID: 4598545832942036928, guid: c97638ac4ab96604b861628c754a7a14,
+        type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598545832942036928, guid: c97638ac4ab96604b861628c754a7a14,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1268967354
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38146,7 +38151,7 @@ PrefabInstance:
     - target: {fileID: 7174019212652907432, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.23
+      value: -13.53
       objectReference: {fileID: 0}
     - target: {fileID: 7174019212652907432, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
@@ -38156,7 +38161,7 @@ PrefabInstance:
     - target: {fileID: 7174019212652907432, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.77
+      value: -23.44
       objectReference: {fileID: 0}
     - target: {fileID: 7174019212652907432, guid: 77ac6b10722bcca4a8baf70e44d89e78,
         type: 3}
@@ -40905,6 +40910,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tool Object
       objectReference: {fileID: 0}
+    - target: {fileID: 7733588569741889853, guid: b97d8170206a6924c8c9526c388477ce,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8242529562753367280, guid: b97d8170206a6924c8c9526c388477ce,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -40936,7 +40946,7 @@ PrefabInstance:
     - target: {fileID: 2750775559596856525, guid: 3594b54cb469c154fb54795aad16424e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.874
+      value: -2.8700008
       objectReference: {fileID: 0}
     - target: {fileID: 2750775559596856525, guid: 3594b54cb469c154fb54795aad16424e,
         type: 3}
@@ -40982,11 +40992,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 972313017
-      objectReference: {fileID: 0}
-    - target: {fileID: 5322276293884852213, guid: 3594b54cb469c154fb54795aad16424e,
-        type: 3}
-      propertyPath: m_Name
-      value: Lever
       objectReference: {fileID: 0}
     - target: {fileID: 6305659744768304925, guid: 3594b54cb469c154fb54795aad16424e,
         type: 3}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class LightSwitch : NetworkBehaviour
 {
+    // whether the light switch is currently switched on
     public bool isPowered = false;
 
     
@@ -12,22 +13,30 @@ public class LightSwitch : NetworkBehaviour
     // this way you can potentially use it in a hub world without it causing problems
     private bool offlineMode = true;
 
+    // used to syncronize when the switch is flipped across the game.
     private NetworkVariable<bool> networkedIsPower = new NetworkVariable<bool> ();
-    private bool shouldBroadcastChange = false;
 
+    // this exists for the visual aspect of the light switch
+    [SerializeField] Transform switchJoint = null;
+    [SerializeField] Vector3 onRotation = Vector3.zero;
+    [SerializeField] Vector3 offRotation = Vector3.zero;
     
 
     NetworkObject nobj;
 
+    
+
     public override void OnNetworkSpawn () {
         offlineMode = false;
-        if (IsOwner) {
+        // syncs the "is powered" values to the session owner
+        if (IsSessionOwner) {
             networkedIsPower.Value = isPowered;
         }
         else {
             isPowered = networkedIsPower.Value;
+            UpdateSwitchJoint ();
         }
-        networkedIsPower.OnValueChanged += UpdateIsPowered;
+        networkedIsPower.OnValueChanged += UpdateIsPowered; // this is set up for everyone incase the ownership moves
         base.OnNetworkSpawn ();
     }
 
@@ -44,29 +53,44 @@ public class LightSwitch : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){
         nobj = GetComponent<NetworkObject> ();
+        UpdateSwitchJoint ();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (shouldBroadcastChange) {
-            if (IsOwner) {
-                // broadcasts the light toggle once it's authorized to.
-                networkedIsPower.Value = isPowered;
-                shouldBroadcastChange = false;
-            }
-            else {
-            }
-        }
-    }
-
+    // callback for when the network variable is updated
     private void UpdateIsPowered (bool privous, bool current) {
         isPowered = current;
+        UpdateSwitchJoint ();
     }
 
+    // callback for when the switch is flipped
     public void ToggleLight () {
         isPowered = !isPowered;
-        nobj.RequestOwnership ();// requests to be the authoritative copy of the game object
-        shouldBroadcastChange = true; // queues the game object to broadcast the light toggle to other users once it's authorized to
+        
+        if (!offlineMode) {// disables network behavior if not connected to a room to prevent errors
+            if (IsOwner) { // updates everyone if this copy is the owner
+                networkedIsPower.Value = isPowered;
+            }
+            else {
+                SetPoweredRpc (isPowered); // if this is a client, then update the owner
+            }
+        }
+        
+        
+        UpdateSwitchJoint ();
+    }
+
+    // updates the owner to change the "isPowered" value
+    [Rpc (SendTo.Owner)]
+    void SetPoweredRpc (bool isPowered) {
+        this.isPowered = isPowered; // changes "isPowered" on the owner
+        networkedIsPower.Value = isPowered; // changes "isPowered" on everything else
+    }
+
+    // updates whether the switch is shown to be on or off to match the actual state of the light switch
+    // this goes just about anywhere "isPowered" is written to
+    private void UpdateSwitchJoint () {
+        if (switchJoint != null) {
+            switchJoint.rotation = Quaternion.Euler (isPowered ? onRotation : offRotation);
+        }
     }
 }

@@ -9,6 +9,7 @@ public class ModelSwapper : NetworkBehaviour
     [SerializeField] GameObject fixedModel;
     [SerializeField] float repairTime = 10;
     [SerializeField] bool resetRepairTimeOnLeave = true;
+    [SerializeField] RToolType correctTool = (RToolType)((1<<30) - 1);
 
     // back end variables
     private float currentRepairTime = 0;
@@ -89,7 +90,8 @@ public class ModelSwapper : NetworkBehaviour
 
     private void OnTriggerStay (Collider other) {
         // finds the tool the player is using for repairs
-        if (other.GetComponent<RepairTool> () != null && tool == null)
+        var newTool = other.GetComponent<RepairTool> ();
+        if (newTool != null && tool == null && (newTool.ToolType & correctTool) > 0)
         {
             tool = other.gameObject;
         }
@@ -98,7 +100,8 @@ public class ModelSwapper : NetworkBehaviour
 
     private void OnTriggerExit (Collider other) {
         // detects if the tool leaves the object
-        if (tool == other.gameObject) {
+        if (tool == other.gameObject)
+        {
             tool = null;
         }
     }
