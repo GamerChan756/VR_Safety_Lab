@@ -1,21 +1,37 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class RepairTool : MonoBehaviour
 {
     [SerializeField] RToolType toolType = RToolType.None;
     public RToolType ToolType => toolType;
+
+    public bool isHeld = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        var grabable = GetComponent<XRGrabInteractable> ();
+        if (grabable) {
+            grabable.selectEntered.AddListener(Grabbed);
+            grabable.selectExited.AddListener (Dropped);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void Grabbed (SelectEnterEventArgs args) {
+        isHeld = true;
+    }
+
+    public void Dropped (SelectExitEventArgs args) {
+        isHeld = false;
     }
 }
 
