@@ -1,6 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class LightSwitch : NetworkBehaviour
 {
@@ -52,6 +54,11 @@ public class LightSwitch : NetworkBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){
+        var interactable = GetComponent<XRSimpleInteractable> ();
+        if (interactable != null) {
+            //interactable.activated.AddListener (Activated);
+            interactable.selectEntered.AddListener ((args) => { ToggleLight (); });
+        }
         nobj = GetComponent<NetworkObject> ();
         UpdateSwitchJoint ();
     }
@@ -93,4 +100,5 @@ public class LightSwitch : NetworkBehaviour
             switchJoint.rotation = Quaternion.Euler (isPowered ? onRotation : offRotation);
         }
     }
+
 }

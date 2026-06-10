@@ -18,7 +18,7 @@ public class SimpleRepairable : NetworkBehaviour
 
     // whatever tool is currently being used to repair the model
     // null if nothings being used.
-    private GameObject tool = null;
+    private RepairTool tool = null;
     private bool offlineMode = true;
 
 
@@ -57,10 +57,12 @@ public class SimpleRepairable : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsSessionOwner || offlineMode) // ensures this logic is only run on the host
+        
+        if (IsOwner || offlineMode) // ensures this logic is only run on the host
         {
             if (tool != null) {// runs if a tool is held up to the object
                 currentRepairTime += Time.deltaTime; // counts down until fully repaired
+                
                 if (currentRepairTime >= repairTime && !isFixed) { // repairs the object and swaps the model
                                                                    //if (!isFixed)
                                                                    //    SetFixed (true);
@@ -70,6 +72,9 @@ public class SimpleRepairable : NetworkBehaviour
                         netIsFixed.Value = true; // changes it on all the clients
 
                 }
+
+                // stops repairing the object if the tool is deactivated.
+                if (!tool.IsOn) tool = null;
             }
             else if (resetRepairTimeOnLeave) {
                 currentRepairTime = 0; // if its set to reset when the tool leaves the object, then reset it
@@ -84,16 +89,17 @@ public class SimpleRepairable : NetworkBehaviour
 
     private void SetFixed (bool isFixed) {
         this.isFixed = isFixed;
-        //swapper.UseEndModel (isFixed);
-        swapper.CurrentModel = (isFixed ? 1 : 0);
+        
         // swaps the models
+        swapper.CurrentModel = (isFixed ? 1 : 0);
     }
 
     private void OnTriggerStay (Collider other) {
         // finds the tool the player is using for repairs
         var newTool = other.GetComponent<RepairTool> ();
-        if (newTool != null && tool == null && (newTool.ToolType & correctTool) > 0) {
-            tool = other.gameObject;
+        if (newTool != null && tool == null) {
+            if ((newTool.ToolType & correctTool) > 0 && newTool.IsOn)
+                tool = newTool;
         }
         //Debug.Log (other.name);
     }

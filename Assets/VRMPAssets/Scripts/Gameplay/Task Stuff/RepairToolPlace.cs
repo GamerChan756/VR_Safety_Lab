@@ -5,25 +5,101 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class RepairToolPlace : NetworkBehaviour
 {
 
+    bool offlineMode = true;
+    [SerializeField]
+    Transform snapTransform;
 
-    NetworkVariable<bool> filled = new NetworkVariable<bool> ();
+    [SerializeField]
+    RToolType acceptedTypes = (RToolType)(-1);
+
+    [SerializeField]
+    bool lockTool = false;
+
+    private NetworkVariable<bool> filled = new NetworkVariable<bool> (); // note this value being accurate is untested
+    public bool Filled {
+        get {
+            if (offlineMode) {
+                return filled.Value;
+            }
+            else {
+                return currentlyHeld != null;
+            }
+        }
+    }
+
+
+    private RepairTool currentlyHeld = null;
+    private XRGrabInteractable heldGrabInteractable = null;
+
+    //public RepairTool CurrentlyHeld => currentlyHeld;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
+    public override void OnNetworkSpawn () {
+        offlineMode = false;
+        if (IsOwner) {
+            filled.Value = currentlyHeld != null;
+        }
+    }
+
+    public override void OnNetworkDespawn () {
+        offlineMode = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
-    }
+        if (currentlyHeld != null) {
+            if (currentlyHeld.IsHeld) { // if the player grabs it, then the repair tool holder should  let go.
+                var rigidBody = currentlyHeld.GetComponent<Rigidbody> ();
+                rigidBody.isKinematic = false;
+                rigidBody.useGravity = true;
+                currentlyHeld = null;
+                heldGrabInteractable = null;
 
-    private void OnTriggerEnter (Collider collision) {
-        var repairTool = collision.GetComponent<RepairTool> ();
-        var grabable = collision.GetComponent<XRGrabInteractable> ();
-        if (repairTool != null && grabable != null) {
-            grabable.enabled = false;
+                if (IsOwner && !offlineMode) {
+                    filled.Value = false; // updates the is filled value, which is important for events and such
+                }
+            }
+            else {
+                // continously updates the repair tool incase the repair tool holder moves
+                currentlyHeld.transform.position = snapTransform.position;
+                currentlyHeld.transform.rotation = snapTransform.rotation;
+            }
         }
     }
+
+    private void OnTriggerStay (Collider collision) {
+        var repairTool = collision.GetComponent<RepairTool> ();
+        
+        if (repairTool != null && currentlyHeld == null) {
+            if (!repairTool.IsHeld) { // ran if the object has the repair tool script, and it is currently not being held
+                if (IsOwner || offlineMode) { // this only needs to be ran if this is the authoritative copy
+                    var grabbable = collision.GetComponent<XRGrabInteractable> ();
+                    var rigidBody = collision.GetComponent<Rigidbody> ();
+                    
+                    // sets the rigid body to not move, and snaps it into position
+                    rigidBody.isKinematic = true;
+                    rigidBody.useGravity = false;
+                    rigidBody.linearVelocity = Vector3.zero;
+                    rigidBody.angularVelocity = Vector3.zero;
+                    repairTool.transform.position = snapTransform.position;
+                    repairTool.transform.rotation = snapTransform.rotation;
+                    if (!offlineMode)
+                        filled.Value = true;
+                }
+
+                currentlyHeld = repairTool;
+                heldGrabInteractable = currentlyHeld.GetComponent<XRGrabInteractable> ();
+            }
+        }
+        //if (repairTool != null && grabable != null) {
+        //    grabable.enabled = false;
+        //}
+    }
+
+    
 }

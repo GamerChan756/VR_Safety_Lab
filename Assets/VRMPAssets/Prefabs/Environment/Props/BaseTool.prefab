@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VRMP::RepairTool
   toolType: 1
-  isHeld: 0
 --- !u!114 &8242529562753367280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 621795139
+  GlobalObjectIdHash: 3105820773
   InScenePlacedSourceGlobalObjectIdHash: 621795139
   DeferredDespawnTick: 0
   Ownership: 3
