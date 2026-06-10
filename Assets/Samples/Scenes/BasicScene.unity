@@ -2981,8 +2981,6 @@ MonoBehaviour:
   snapTransform: {fileID: 1576513985}
   acceptedTypes: -1
   lockTool: 0
-  filled:
-    m_InternalValue: 0
 --- !u!114 &1300321102
 MonoBehaviour:
   m_ObjectHideFlags: 0

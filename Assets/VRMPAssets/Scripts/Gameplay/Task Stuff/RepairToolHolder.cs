@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class RepairToolPlace : NetworkBehaviour
+public class RepairToolHolder : NetworkBehaviour
 {
 
     bool offlineMode = true;

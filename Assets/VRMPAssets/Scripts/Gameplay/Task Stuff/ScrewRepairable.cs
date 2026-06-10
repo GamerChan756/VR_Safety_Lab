@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScrewRepairable : MonoBehaviour
 {
-    public RepairToolPlace itemHolder;
+    public RepairToolHolder itemHolder;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
