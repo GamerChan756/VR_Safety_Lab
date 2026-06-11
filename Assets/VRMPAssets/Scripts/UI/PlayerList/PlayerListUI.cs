@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Graphs;
 using UnityEngine;
 
 namespace XRMultiplayer
@@ -9,6 +10,7 @@ namespace XRMultiplayer
         [SerializeField] TMP_Text m_PlayerCountText;
         [SerializeField] Transform m_ConnectedPlayersViewportContentTransform;
         [SerializeField] GameObject m_PlayerSlotPrefab;
+        [SerializeField] public PlayerSlot.UISlotType uiType;
 
         [SerializeField] bool m_AutoInitializeCallbacks = true;
 
@@ -111,6 +113,7 @@ namespace XRMultiplayer
         void SetupPlayerSlotUI(ulong playerId)
         {
             PlayerSlot slot = Instantiate(m_PlayerSlotPrefab, m_ConnectedPlayersViewportContentTransform).GetComponent<PlayerSlot>();
+            slot.uiType = uiType;
             slot.playerID = playerId;
 
             if (XRINetworkGameManager.Instance.TryGetPlayerByID(playerId, out XRINetworkPlayer player))

@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
@@ -10,6 +11,7 @@ namespace XRMultiplayer
         public TMP_Text playerSlotName;
         public TMP_Text playerInitial;
         public Image playerIconImage;
+        public UISlotType uiType;
 
         [Header("Mic Button")]
         public Image voiceChatFillImage;
@@ -20,8 +22,23 @@ namespace XRMultiplayer
         XRINetworkPlayer m_Player;
         internal ulong playerID = 0;
 
+        public enum UISlotType
+        {
+            RoomInfo,
+            GradeInfo
+        }
+
         public void Setup(XRINetworkPlayer player)
         {
+            Debug.Log("Testing");
+            if (uiType == UISlotType.RoomInfo)
+            {
+                Debug.Log("Room Info UI prefab detected");
+            }
+            else if (uiType == UISlotType.GradeInfo)
+            {
+                Debug.Log("Grade Info UI prefab detected");
+            }
             m_Player = player;
             m_Player.onColorUpdated += UpdateColor;
             m_Player.onNameUpdated += UpdateName;
@@ -69,6 +86,18 @@ namespace XRMultiplayer
                 }
                 playerSlotName.text = playerName;
                 playerInitial.text = newName.Substring(0, 1);
+            }
+        }
+        void Awake()
+        {
+            GameObject root = gameObject.transform.root.gameObject;
+            if (root.name.Contains("Room Info UI"))
+            {
+                Debug.Log("This is Room Info UI");
+            }
+            else if (root.name.Contains("Grade Info UI"))
+            {
+                Debug.Log("This is Grade Info UI");
             }
         }
 
