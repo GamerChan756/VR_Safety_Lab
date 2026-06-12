@@ -19,6 +19,8 @@ namespace XRMultiplayer
         [SerializeField] Image m_PlayerVoiceIcon;
         [SerializeField] Image m_SquelchedIcon;
         [SerializeField] Sprite[] micIcons;
+        [Header("Text Box")]
+        [SerializeField] Button m_Textbox;
         XRINetworkPlayer m_Player;
         internal ulong playerID = 0;
 
@@ -61,8 +63,11 @@ namespace XRMultiplayer
         {
             m_Player.onColorUpdated -= UpdateColor;
             m_Player.onNameUpdated -= UpdateName;
-            m_Player.selfMuted.OnValueChanged -= UpdateSelfMutedState;
-            m_MicButton.onClick.RemoveListener(Squelch);
+            if (uiType == UISlotType.RoomInfo)
+            {
+                m_Player.selfMuted.OnValueChanged -= UpdateSelfMutedState;
+                m_MicButton.onClick.RemoveListener(Squelch);
+            }
             m_Player.squelched.Unsubscribe(UpdateSquelchedState);
         }
 
