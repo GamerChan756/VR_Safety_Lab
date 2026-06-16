@@ -18,23 +18,39 @@ public class SimpleRepairable : NetworkBehaviour
 
     // whatever tool is currently being used to repair the model
     // null if nothings being used.
-    private RepairTool tool = null;
+    public RepairTool tool = null;
     private bool offlineMode = true;
 
+    [SerializeField]
+    Transform progressIndicator = null;
 
-    
+    [SerializeField]
+    Transform progressIndicatorEndPoint = null;
+    Vector3 progressIndicatorStartPoint;
+
+    [SerializeField]
+    GameTask[] requiredTasks = new GameTask[0];
+
+    [SerializeField]
+    GameTask taskInfo;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (progressIndicator != null)
+            progressIndicatorStartPoint = progressIndicator.position;
         if (swapper == null)
             swapper = GetComponent<ModelSwapper> ();
+
+        if (taskInfo == null)
+            taskInfo = GetComponent<GameTask> ();
 
         SetFixed (false);
     }
 
     public override void OnNetworkSpawn () {
         offlineMode = false;
-        if (IsSessionOwner) { // sets on host end
+        if (IsOwner) { // sets on host end
             netIsFixed.Value = isFixed;
         }
         else { // sets up on client end
@@ -48,7 +64,7 @@ public class SimpleRepairable : NetworkBehaviour
 
     public override void OnNetworkDespawn () {
         offlineMode = true;
-        if (!IsSessionOwner) {
+        if (!IsOwner) {
             netIsFixed.OnValueChanged -= FixedChanged;
         }
         base.OnNetworkDespawn ();
@@ -57,11 +73,21 @@ public class SimpleRepairable : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         if (IsOwner || offlineMode) // ensures this logic is only run on the host
         {
-            if (tool != null) {// runs if a tool is held up to the object
-                currentRepairTime += Time.deltaTime; // counts down until fully repaired
+            // decides if the players have completed enough tasks to make progress on this one
+            bool requiredTaskCompletion = true;
+            for (int i = 0; i < requiredTasks.Length; i++) {
+                if (!requiredTasks[i].TaskCompleted) {
+                    requiredTaskCompletion = false;
+                    break;
+                }
+            }
+            if (tool != null)
+            {// runs if a tool is held up to the object
+                if (requiredTaskCompletion)
+                    currentRepairTime += Time.deltaTime; // counts down until fully repaired
                 
                 if (currentRepairTime >= repairTime && !isFixed) { // repairs the object and swaps the model
                                                                    //if (!isFixed)
@@ -76,8 +102,17 @@ public class SimpleRepairable : NetworkBehaviour
                 // stops repairing the object if the tool is deactivated.
                 if (!tool.IsOn) tool = null;
             }
-            else if (resetRepairTimeOnLeave) {
+            else if (resetRepairTimeOnLeave && !isFixed) {
                 currentRepairTime = 0; // if its set to reset when the tool leaves the object, then reset it
+            }
+
+            if (progressIndicator != null && progressIndicatorEndPoint) {
+                
+                progressIndicator.position = Vector3.Lerp (
+                    progressIndicatorStartPoint,
+                    progressIndicatorEndPoint.position,
+                    currentRepairTime / repairTime
+                );
             }
         }
     }
@@ -91,7 +126,11 @@ public class SimpleRepairable : NetworkBehaviour
         this.isFixed = isFixed;
         
         // swaps the models
-        swapper.CurrentModel = (isFixed ? 1 : 0);
+        if (swapper != null)
+            swapper.CurrentModel = (isFixed ? 1 : 0);
+
+        if (taskInfo != null)
+            taskInfo.TaskCompleted = isFixed;
     }
 
     private void OnTriggerStay (Collider other) {
@@ -106,8 +145,13 @@ public class SimpleRepairable : NetworkBehaviour
 
     private void OnTriggerExit (Collider other) {
         // detects if the tool leaves the object
-        if (tool == other.gameObject) {
-            tool = null;
+        if (tool != null) {
+            Debug.Log ($"{tool.name} == {other.gameObject.name} = {tool.gameObject == other.gameObject}");
+            if (tool.gameObject == other.gameObject) {
+                tool = null;
+            }
         }
     }
+
+    
 }

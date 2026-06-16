@@ -2,7 +2,6 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class RepairTool: NetworkBehaviour {
@@ -94,8 +93,9 @@ public class RepairTool: NetworkBehaviour {
             SetIsOn(false);
     }
 
-    // Syncing is On
 
+
+    // Syncing is On
     private void IsOnChanged (bool previous, bool current) {
         if (!IsOwner) {
             isOn = current;
