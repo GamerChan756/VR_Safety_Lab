@@ -2,25 +2,33 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameTask: NetworkBehaviour {
+public class GameTask: MonoBehaviour {
     public UnityEvent<bool> TaskStatusChangedEvent = new UnityEvent<bool> ();
-    private bool offlineMode = true;
-    private NetworkVariable<bool> taskCompleted = new NetworkVariable<bool> (false);
+    
+    [SerializeField]
+    private float gradeValue = 10;
+    public float GradeValue => gradeValue;
+
+    //private bool offlineMode = true;
+    private bool taskCompleted = false;
+
+    [SerializeField]
+    AudioSource audioSource;
     public bool TaskCompleted {
         get {
-            return taskCompleted.Value;
+            return taskCompleted;
         }
 
         set {
-            if ((IsOwner || offlineMode) && taskCompleted.Value != value) {
-                taskCompleted.Value = value;
+            if (value != taskCompleted) {
+                taskCompleted = value;
+                TaskStatusChanged (value);
             }
-            else if (!IsOwner) {
-                Debug.LogWarning ($"Warning. This client does not own {name}, so you cannot mutate TaskCompleted");
-            }
+            else
+                taskCompleted = value;
         }
     }
-    public override void OnNetworkSpawn () {
+    /*public override void OnNetworkSpawn () {
         offlineMode = false;
         //taskCompleted.OnValueChanged += TaskStatusChanged;
         base.OnNetworkSpawn ();
@@ -30,17 +38,22 @@ public class GameTask: NetworkBehaviour {
     public override void OnNetworkDespawn () {
         offlineMode = true;
         base.OnNetworkDespawn ();
-    }
+    }*/
 
 
-    private void TaskStatusChanged (bool previous, bool current) {
-        if (previous != current)
-            TaskStatusChangedEvent.Invoke (current);
+    private void TaskStatusChanged (bool current) {
+        
+        TaskStatusChangedEvent.Invoke (current);
+        if (current && audioSource != null) {
+            audioSource.Stop ();
+            audioSource.time = 0;
+            audioSource.Play ();
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start () {
-        taskCompleted.OnValueChanged += TaskStatusChanged;
+        //taskCompleted.OnValueChanged += TaskStatusChanged;
 
     }
 

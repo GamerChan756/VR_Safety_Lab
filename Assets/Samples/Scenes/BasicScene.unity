@@ -2318,13 +2318,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4136294260178896043, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
         type: 3}
-      propertyPath: Ownership
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4136294260178896043, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
-        type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2423632022
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187417449153630405, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 6187676562588991422, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
         type: 3}
@@ -2394,11 +2394,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6187676562588991422, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1837338826}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a25f80cbd7518b4d8d67cf7c97b25de, type: 3}
 --- !u!4 &862687141 stripped
 Transform:
@@ -3013,6 +3009,7 @@ GameObject:
   - component: {fileID: 1300321101}
   - component: {fileID: 1300321100}
   - component: {fileID: 1300321103}
+  - component: {fileID: 1300321104}
   - component: {fileID: 1300321102}
   m_Layer: 0
   m_Name: ObjectHolder
@@ -3114,75 +3111,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cac8422d1002a84da146abd0e3277f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VRMP::GameTask
-  ShowTopMostFoldoutHeaderGroup: 1
   TaskStatusChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  taskCompleted:
-    m_InternalValue: 0
---- !u!1 &1318067473
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1318067474}
-  - component: {fileID: 1318067475}
-  - component: {fileID: 1318067476}
-  m_Layer: 0
-  m_Name: TestingModelSwapper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1318067474
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318067473}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.72, y: 0, z: 30.66}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1747180243}
-  - {fileID: 104510512}
-  - {fileID: 1300321099}
-  - {fileID: 1740040912}
-  - {fileID: 862687141}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1318067475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318067473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4441d91a53cc30849838660b31dbfd75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VRMP::TaskTracker
-  ShowTopMostFoldoutHeaderGroup: 1
-  audio: {fileID: 1318067476}
-  tasks:
-  - {fileID: 1747180245}
-  - {fileID: 1300321103}
-  - {fileID: 1837338826}
---- !u!82 &1318067476
+  gradeValue: 10
+  audioSource: {fileID: 1300321104}
+--- !u!82 &1300321104
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318067473}
+  m_GameObject: {fileID: 1300321098}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -3197,11 +3137,11 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 60
+  MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
@@ -3273,6 +3213,60 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1318067473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318067474}
+  - component: {fileID: 1318067475}
+  m_Layer: 0
+  m_Name: TestingRepairables
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318067474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318067473}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.72, y: 0, z: 30.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1747180243}
+  - {fileID: 104510512}
+  - {fileID: 1300321099}
+  - {fileID: 1740040912}
+  - {fileID: 862687141}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318067475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318067473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4441d91a53cc30849838660b31dbfd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VRMP::TaskTracker
+  ShowTopMostFoldoutHeaderGroup: 1
+  tasks:
+  - {fileID: 1747180245}
+  - {fileID: 1300321103}
+  - {fileID: 1837338826}
 --- !u!1 &1402408714
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,30 +4093,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cac8422d1002a84da146abd0e3277f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VRMP::GameTask
---- !u!1 &1837338824 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6187676562588991422, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
+--- !u!114 &1837338826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 758039084043889775, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
     type: 3}
   m_PrefabInstance: {fileID: 862687140}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1837338826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837338824}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cac8422d1002a84da146abd0e3277f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VRMP::GameTask
-  ShowTopMostFoldoutHeaderGroup: 1
-  TaskStatusChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  taskCompleted:
-    m_InternalValue: 0
 --- !u!1 &1890181473
 GameObject:
   m_ObjectHideFlags: 0

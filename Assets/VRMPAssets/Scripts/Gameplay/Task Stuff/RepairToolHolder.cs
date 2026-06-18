@@ -66,10 +66,11 @@ public class RepairToolHolder : NetworkBehaviour
                 currentlyHeld = null;
                 heldGrabInteractable = null;
 
-                if (IsOwner && !offlineMode) {
+                if (IsOwner || offlineMode)
                     filled.Value = false; // updates the is filled value, which is important for events and such
+                
                     
-                }
+                
             }
             else {
                 // continously updates the repair tool incase the repair tool holder moves
@@ -78,9 +79,9 @@ public class RepairToolHolder : NetworkBehaviour
             }
         }
 
-        if (taskInfo != null && (IsOwner || offlineMode)) {
+        if (taskInfo != null) {
             taskInfo.TaskCompleted = Filled;
-            Debug.Log (Filled);
+            //Debug.Log (Filled);
         }
     }
 
@@ -101,6 +102,8 @@ public class RepairToolHolder : NetworkBehaviour
                 rigidBody.angularVelocity = Vector3.zero;
                 repairTool.transform.position = snapTransform.position;
                 repairTool.transform.rotation = snapTransform.rotation;
+                if (lockTool)
+                    grabbable.enabled = false;
                 //Debug.Log ("Grabbed");
                 if (IsOwner || offlineMode) { // this only needs to be ran if this is the authoritative copy
                     if (!offlineMode)
