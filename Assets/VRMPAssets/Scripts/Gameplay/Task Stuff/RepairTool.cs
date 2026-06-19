@@ -38,6 +38,7 @@ public class RepairTool: NetworkBehaviour {
             grabable.deactivated.AddListener (Deactivate);
         }
         rigidbody = GetComponent<Rigidbody> ();
+        
     }
 
     public override void OnNetworkSpawn () {
@@ -52,7 +53,7 @@ public class RepairTool: NetworkBehaviour {
         }
         networkedIsHeld.OnValueChanged = IsHeldChanged;
         networkedIsOn.OnValueChanged = IsOnChanged;
-
+        
         base.OnNetworkSpawn ();
     }
 

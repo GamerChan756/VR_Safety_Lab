@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class TaskTracker : NetworkBehaviour
 {
@@ -24,14 +25,19 @@ public class TaskTracker : NetworkBehaviour
 
     private string listOfTasks = "";
     public string ListOfTasks => listOfTasks;
+
+    public UnityEvent<string> taskListUpdated = new UnityEvent<string> ();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Start ()
     {
         for (int i = 0; i < tasks.Length; i++) {
             tasks[i].TaskStatusChangedEvent.AddListener ((a) => { CountTasksCompleted (); });
             maximumGrade += tasks[i].GradeValue;
         }
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -56,23 +62,23 @@ public class TaskTracker : NetworkBehaviour
             for (int j = 0; j < taskList.Count; j++) {
                 if (tasks[i].TaskName == taskList[j].name) {
                     hasSimilarName = true;
-                    if (!tasks[i].TaskCompleted)
-                        taskList[j] = (
-                            taskList[j].name,
-                            taskList[j].count+1,
-                            taskList[j].totalCount+1
-                        ); 
+                    //if (!tasks[i].TaskCompleted)
+                    taskList[j] = (
+                        taskList[j].name,
+                        taskList[j].count+(tasks[i].TaskCompleted? 1: 0),
+                        taskList[j].totalCount+1
+                    ); 
                     break;
                 }
             }
             if (!hasSimilarName) {
-                taskList.Add ((tasks[i].TaskName, tasks[i].TaskCompleted? 0: 1, 1));
+                taskList.Add ((tasks[i].TaskName, tasks[i].TaskCompleted? 1: 0, 1));
             }
             
         }
         listOfTasks = "";
         for (int i = 0; i < taskList.Count; i++) {
-            listOfTasks += $"{taskList[i].name} ({taskList[i].count} / {taskList[i].totalCount} completed)\n";
+            listOfTasks += $"{taskList[i].name} ({taskList[i].count} / {taskList[i].totalCount} done)\n";
         }
 
         /*if (tasksCompleted > currentlyCompleted) {
@@ -82,5 +88,6 @@ public class TaskTracker : NetworkBehaviour
         }*/
         Debug.Log ($"Tasks Completed {tasksCompleted}, current grade {currentGrade} / {maximumGrade}");
         Debug.Log ("TaskList: \n" + listOfTasks);
+        taskListUpdated.Invoke (listOfTasks);
     }
 }
