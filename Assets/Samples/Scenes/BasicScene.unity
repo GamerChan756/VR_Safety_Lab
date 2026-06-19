@@ -2316,15 +2316,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1318067474}
     m_Modifications:
+    - target: {fileID: 758039084043889775, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
+        type: 3}
+      propertyPath: taskName
+      value: Repair
+      objectReference: {fileID: 0}
     - target: {fileID: 4136294260178896043, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2423632022
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187417449153630405, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 6187676562588991422, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
         type: 3}
@@ -2381,11 +2381,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8831872938024028939, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
-        type: 3}
-      propertyPath: taskInfo
-      value: 
-      objectReference: {fileID: 1837338826}
     - target: {fileID: 8831872938024028939, guid: 0a25f80cbd7518b4d8d67cf7c97b25de,
         type: 3}
       propertyPath: correctTool
@@ -3116,6 +3111,7 @@ MonoBehaviour:
       m_Calls: []
   gradeValue: 10
   audioSource: {fileID: 1300321104}
+  taskName: PutToolBack
 --- !u!82 &1300321104
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4064,6 +4060,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BaseModelSwapper
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620859626279230629, guid: c97638ac4ab96604b861628c754a7a14,
+        type: 3}
+      propertyPath: taskName
+      value: Repair
       objectReference: {fileID: 0}
     - target: {fileID: 7091361368356725872, guid: c97638ac4ab96604b861628c754a7a14,
         type: 3}

@@ -11,9 +11,6 @@ public class GameTask: MonoBehaviour {
 
     //private bool offlineMode = true;
     private bool taskCompleted = false;
-
-    [SerializeField]
-    AudioSource audioSource;
     public bool TaskCompleted {
         get {
             return taskCompleted;
@@ -28,6 +25,14 @@ public class GameTask: MonoBehaviour {
                 taskCompleted = value;
         }
     }
+
+    [SerializeField]
+    AudioSource audioSource;
+
+    [SerializeField]
+    private string taskName = "";
+    public string TaskName => taskName;
+
     /*public override void OnNetworkSpawn () {
         offlineMode = false;
         //taskCompleted.OnValueChanged += TaskStatusChanged;

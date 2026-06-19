@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class TaskTracker : NetworkBehaviour
 {
@@ -19,6 +21,9 @@ public class TaskTracker : NetworkBehaviour
 
     private float maximumGrade = 0;
     public float MaximumGrade => maximumGrade;
+
+    private string listOfTasks = "";
+    public string ListOfTasks => listOfTasks;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,13 +43,36 @@ public class TaskTracker : NetworkBehaviour
         //var currentlyCompleted = tasksCompleted;
         tasksCompleted = 0;
 
-        currentGrade = 0; ;
+        currentGrade = 0;
+        var taskList = new List<(string name, int count, int totalCount)> ();
 
         for (int i = 0; i < tasks.Length; i++) {
             if (tasks[i].TaskCompleted) {
                 tasksCompleted++;
                 currentGrade += tasks[i].GradeValue;
             }
+            
+            bool hasSimilarName = false;
+            for (int j = 0; j < taskList.Count; j++) {
+                if (tasks[i].TaskName == taskList[j].name) {
+                    hasSimilarName = true;
+                    if (!tasks[i].TaskCompleted)
+                        taskList[j] = (
+                            taskList[j].name,
+                            taskList[j].count+1,
+                            taskList[j].totalCount+1
+                        ); 
+                    break;
+                }
+            }
+            if (!hasSimilarName) {
+                taskList.Add ((tasks[i].TaskName, tasks[i].TaskCompleted? 0: 1, 1));
+            }
+            
+        }
+        listOfTasks = "";
+        for (int i = 0; i < taskList.Count; i++) {
+            listOfTasks += $"{taskList[i].name} ({taskList[i].count} / {taskList[i].totalCount} completed)\n";
         }
 
         /*if (tasksCompleted > currentlyCompleted) {
@@ -53,5 +81,6 @@ public class TaskTracker : NetworkBehaviour
             audio.Play ();
         }*/
         Debug.Log ($"Tasks Completed {tasksCompleted}, current grade {currentGrade} / {maximumGrade}");
+        Debug.Log ("TaskList: \n" + listOfTasks);
     }
 }
