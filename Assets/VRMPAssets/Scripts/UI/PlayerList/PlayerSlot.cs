@@ -32,22 +32,30 @@ namespace XRMultiplayer
 
         public void Setup(XRINetworkPlayer player)
         {
-            Debug.Log("Testing");
-            if (uiType == UISlotType.RoomInfo)
-            {
-                Debug.Log("Room Info UI prefab detected");
-            }
-            else if (uiType == UISlotType.GradeInfo)
-            {
-                Debug.Log("Grade Info UI prefab detected");
-            }
+            // Checks what Type of Room the uiType is set with currently 
+            
             m_Player = player;
             m_Player.onColorUpdated += UpdateColor;
             m_Player.onNameUpdated += UpdateName;
-            m_Player.selfMuted.OnValueChanged += UpdateSelfMutedState;
-            m_MicButton.onClick.AddListener(Squelch);
             m_Player.squelched.Subscribe(UpdateSquelchedState);
-            m_SquelchedIcon.enabled = false;
+            if (uiType == UISlotType.RoomInfo)
+            {
+                m_Player.selfMuted.OnValueChanged += UpdateSelfMutedState;
+                m_MicButton.onClick.AddListener(Squelch);
+                m_SquelchedIcon.enabled = false;
+                Debug.Log("Room Info UI detected");
+            }
+            else if (uiType == UISlotType.GradeInfo)
+            {
+                Debug.Log("Grade Info UI detected");
+                GameObject gradeInfo = GameObject.Find("Grade Info UI");
+                Debug.Log(gradeInfo);
+                gradeInfo.SetActive(false);
+                if (m_Player.IsSessionOwner == true)
+                {
+                    gradeInfo.SetActive(true);
+                }
+            }
             if (m_Player.IsLocalPlayer)
             {
                 m_MicButton.interactable = false;
