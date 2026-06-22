@@ -79,9 +79,9 @@ public class RepairToolHolder : NetworkBehaviour
             }
         }
 
+        // updates the task completed script (if it has one)
         if (taskInfo != null) {
             taskInfo.TaskCompleted = Filled;
-            //Debug.Log (Filled);
         }
     }
 
@@ -91,7 +91,8 @@ public class RepairToolHolder : NetworkBehaviour
         var repairTool = collision.GetComponent<RepairTool> ();
         
         if (repairTool != null && currentlyHeld == null) {
-            if (!repairTool.IsHeld) { // ran if the object has the repair tool script, and it is currently not being held
+            if (!repairTool.IsHeld) {
+                // ran if the object has the repair tool script, and it is currently not being held
                 var grabbable = collision.GetComponent<XRGrabInteractable> ();
                 var rigidBody = collision.GetComponent<Rigidbody> ();
                     
@@ -104,8 +105,9 @@ public class RepairToolHolder : NetworkBehaviour
                 repairTool.transform.rotation = snapTransform.rotation;
                 if (lockTool)
                     grabbable.enabled = false;
-                //Debug.Log ("Grabbed");
-                if (IsOwner || offlineMode) { // this only needs to be ran if this is the authoritative copy
+
+                // this only needs to be ran if this is the authoritative copy
+                if (IsOwner || offlineMode) {
                     if (!offlineMode)
                         filled.Value = true;
                 }

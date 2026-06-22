@@ -22,6 +22,7 @@ public class LightGroup : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // populates the lights and lightSwitches values if they are set to auto populate
         if (autoPopulateLights) lights = GetComponentsInChildren<Light> ();
         if (autoPopulateSwitches) lightSwitches = GetComponentsInChildren<LightSwitch> ();
     }
@@ -29,7 +30,9 @@ public class LightGroup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (HasPower ()) {
+            // tallies the number of light switches currently turned on
             int numOn = 0;
             for (int i = 0; i < lightSwitches.Length; i++) {
                 if (lightSwitches[i].isPowered) {
@@ -37,14 +40,18 @@ public class LightGroup : MonoBehaviour
                 }
             }
 
-            // by basing whether the light switch on is odd, we guarentee that fliping a single light switch will toggle the
-            // lights, no matter the state of the other switches
+            
+            // calculates if an odd number of light switches are on
+            // this way if multiple light switches are hooked up to a light group
+            // switching any of them will toggle the lights
+            // (we might not need this but its better to have this functionality just in case)
             powered = (numOn % 2) == 1;
         }
-        else {
+        else { // if the breaker switch is currently turned off, then turn the light group off
             powered = false;
         }
 
+        //sets the lights to be either on or off.
         for (int i = 0; i < lights.Length; i++) {
             lights[i].enabled = powered;
         }

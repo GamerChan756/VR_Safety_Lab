@@ -31,6 +31,7 @@ public class RepairTool: NetworkBehaviour {
     void Start()
     {
         var grabable = GetComponent<XRGrabInteractable> ();
+        // sets up events
         if (grabable) {
             grabable.selectEntered.AddListener(Grabbed);
             grabable.selectExited.AddListener (Dropped);
@@ -72,9 +73,11 @@ public class RepairTool: NetworkBehaviour {
     }
 
     private void Dropped (SelectExitEventArgs args) {
-        SetIsHeld (false);
+        // enables physics (this this fixes a bug with the object holder)
         rigidbody.useGravity = true;
         rigidbody.isKinematic = false;
+
+        SetIsHeld (false);
         if (toolActivation == ToolActivationType.Hold) {
             SetIsOn (false);
         }
@@ -83,9 +86,9 @@ public class RepairTool: NetworkBehaviour {
     public void Activate (ActivateEventArgs args) {
         //Debug.Log ("ACTIVATED");
         if (toolActivation == ToolActivationType.Toggle)
-            SetIsOn (!isOn);
+            SetIsOn (!isOn);// toggles whether the object is on if its set to toggle
         else
-            SetIsOn (true);
+            SetIsOn (true); // sets it to be turned on if its set to either 'Hold' or 'Always on'
     }
 
     public void Deactivate (DeactivateEventArgs args) {
@@ -103,12 +106,14 @@ public class RepairTool: NetworkBehaviour {
         }
     }
 
+    // sets whether the tool is on in the authoratative copy
     [Rpc(SendTo.Owner)]
     private void SetIsOnInOwnerRpc (bool value) {
         isOn = value;
         networkedIsOn.Value = value;
     }
 
+    // sets is on on all instances of this object across the network
     private void SetIsOn (bool value) {
         isOn = value;
         if (!offlineMode) {
@@ -128,12 +133,14 @@ public class RepairTool: NetworkBehaviour {
         }
     }
 
+    // sets whether the tool is currently being held in the authoritative copy
     [Rpc (SendTo.Owner)]
     private void SetIsHeldInOwnerRpc (bool value) {
         isHeld = value;
         networkedIsHeld.Value = value;
     }
 
+    // set is held in all versions of this object across the network
     private void SetIsHeld (bool value) {
         isHeld = value;
         if (!offlineMode) {

@@ -31,6 +31,7 @@ public class TaskTracker : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start ()
     {
+        // tally up the grade values of each task, and completionStatusChanged events
         for (int i = 0; i < tasks.Length; i++) {
             tasks[i].TaskStatusChangedEvent.AddListener ((a) => { CountTasksCompleted (); });
             maximumGrade += tasks[i].GradeValue;
@@ -46,23 +47,26 @@ public class TaskTracker : NetworkBehaviour
     }
 
     public void CountTasksCompleted () {
-        //var currentlyCompleted = tasksCompleted;
+        // reset tasks completed and current grade
         tasksCompleted = 0;
-
         currentGrade = 0;
+        
+        // creates a list of catagories of tasks
         var taskList = new List<(string name, int count, int totalCount)> ();
 
         for (int i = 0; i < tasks.Length; i++) {
+            // tallies up the number of tasks currently completed, and the current grade
             if (tasks[i].TaskCompleted) {
                 tasksCompleted++;
                 currentGrade += tasks[i].GradeValue;
             }
             
+            // searches whether a catagory already exists for this task
             bool hasSimilarName = false;
             for (int j = 0; j < taskList.Count; j++) {
                 if (tasks[i].TaskName == taskList[j].name) {
+                    // if a catagory already exists for this task then edit that catagory
                     hasSimilarName = true;
-                    //if (!tasks[i].TaskCompleted)
                     taskList[j] = (
                         taskList[j].name,
                         taskList[j].count+(tasks[i].TaskCompleted? 1: 0),
@@ -71,23 +75,25 @@ public class TaskTracker : NetworkBehaviour
                     break;
                 }
             }
+
+            // If a catagory does not exist then create it
             if (!hasSimilarName) {
                 taskList.Add ((tasks[i].TaskName, tasks[i].TaskCompleted? 1: 0, 1));
             }
             
         }
+
+        // compliles the catagories into a string
         listOfTasks = "";
         for (int i = 0; i < taskList.Count; i++) {
             listOfTasks += $"{taskList[i].name} ({taskList[i].count} / {taskList[i].totalCount} done)\n";
         }
 
-        /*if (tasksCompleted > currentlyCompleted) {
-            audio.Stop ();
-            audio.time = 0;
-            audio.Play ();
-        }*/
-        Debug.Log ($"Tasks Completed {tasksCompleted}, current grade {currentGrade} / {maximumGrade}");
-        Debug.Log ("TaskList: \n" + listOfTasks);
+
+        //Debug.Log ($"Tasks Completed {tasksCompleted}, current grade {currentGrade} / {maximumGrade}");
+        //Debug.Log ("TaskList: \n" + listOfTasks);
+
+        // updates anything that uses the task lists
         taskListUpdated.Invoke (listOfTasks);
     }
 }

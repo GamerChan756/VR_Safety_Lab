@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class GameTask: MonoBehaviour {
+    // updates every time the Task is completed, or the requirements to complete it
+    // are no longer satusfied
     public UnityEvent<bool> TaskStatusChangedEvent = new UnityEvent<bool> ();
     
     [SerializeField]
     private float gradeValue = 10;
     public float GradeValue => gradeValue;
 
-    //private bool offlineMode = true;
+
     private bool taskCompleted = false;
     public bool TaskCompleted {
         get {
@@ -17,6 +19,8 @@ public class GameTask: MonoBehaviour {
         }
 
         set {
+            // ensures that the taskStatusChanged event won't
+            // be called if its assigned its current value
             if (value != taskCompleted) {
                 taskCompleted = value;
                 TaskStatusChanged (value);
@@ -27,7 +31,7 @@ public class GameTask: MonoBehaviour {
     }
 
     [SerializeField]
-    AudioSource audioSource;
+    private AudioSource audioSource;
 
     [SerializeField]
     private string taskName = "";
@@ -47,8 +51,9 @@ public class GameTask: MonoBehaviour {
 
 
     private void TaskStatusChanged (bool current) {
-        
+        // calls the taskStatusChangedEvent
         TaskStatusChangedEvent.Invoke (current);
+        // plays the task completed sound
         if (current && audioSource != null) {
             audioSource.Stop ();
             audioSource.time = 0;
