@@ -58,6 +58,8 @@ public class LightGroup : MonoBehaviour
     }
 
     public bool HasPower () {
+        // gets whether the light groups circuit breaker is switched on or off
+        // (if the Light Group does not have a circuit breaker switch then default to on)
         if (circuitBreakerSwitch == null) {
             return true;
         }
