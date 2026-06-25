@@ -19,7 +19,7 @@ public class SimpleRepairable : NetworkBehaviour
 
     // whatever tool is currently being used to repair the model
     // null if nothings being used.
-    public RepairTool tool = null;
+    private RepairTool tool = null;
     private bool offlineMode = true;
 
     [SerializeField]

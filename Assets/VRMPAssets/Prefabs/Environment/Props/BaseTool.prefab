@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 881452564704712205}
   - component: {fileID: 8957315345915904038}
   - component: {fileID: 3923093163732777999}
-  - component: {fileID: 7456913671418676096}
   - component: {fileID: 8242529562753367280}
+  - component: {fileID: 7456913671418676096}
   - component: {fileID: 7733588569741889853}
   - component: {fileID: 1923278271939072703}
   - component: {fileID: 7586477618112087419}
@@ -87,19 +87,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.06, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0.19}
---- !u!114 &7456913671418676096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6303566348853802130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224610a354f184245959607813dbd741, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VRMP::RepairTool
-  toolType: 1
 --- !u!114 &8242529562753367280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3105820773
+  GlobalObjectIdHash: 621795139
   InScenePlacedSourceGlobalObjectIdHash: 621795139
   DeferredDespawnTick: 0
   Ownership: 3
@@ -125,6 +112,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &7456913671418676096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303566348853802130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224610a354f184245959607813dbd741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VRMP::RepairTool
+  ShowTopMostFoldoutHeaderGroup: 1
+  toolType: 1
+  toolActivation: 2
 --- !u!114 &7733588569741889853
 MonoBehaviour:
   m_ObjectHideFlags: 0
