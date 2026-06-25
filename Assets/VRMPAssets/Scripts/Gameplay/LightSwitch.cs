@@ -97,7 +97,7 @@ public class LightSwitch : NetworkBehaviour
     // this goes just about anywhere "isPowered" is written to
     private void UpdateSwitchJoint () {
         if (switchJoint != null) {
-            switchJoint.rotation = Quaternion.Euler (isPowered ? onRotation : offRotation);
+            switchJoint.localRotation = Quaternion.Euler (isPowered ? onRotation : offRotation);
         }
     }
 

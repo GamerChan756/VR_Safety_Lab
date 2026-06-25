@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class TaskTracker : NetworkBehaviour
+public class TaskTracker : MonoBehaviour
 {
 
     //[SerializeField]
