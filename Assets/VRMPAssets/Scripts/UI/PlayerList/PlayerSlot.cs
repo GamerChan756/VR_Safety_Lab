@@ -32,12 +32,13 @@ namespace XRMultiplayer
 
         public void Setup(XRINetworkPlayer player)
         {
-            // Checks what Type of Room the uiType is set with currently 
+            // Checks what Type of Room the uiType is set with currently, using RoomInfo or GradeInfo as the two room types
             
             m_Player = player;
             m_Player.onColorUpdated += UpdateColor;
             m_Player.onNameUpdated += UpdateName;
             m_Player.squelched.Subscribe(UpdateSquelchedState);
+            // If it is RoomInfo it starts the mic scripts and detects it in the Log
             if (uiType == UISlotType.RoomInfo)
             {
                 m_Player.selfMuted.OnValueChanged += UpdateSelfMutedState;
@@ -45,6 +46,7 @@ namespace XRMultiplayer
                 m_SquelchedIcon.enabled = false;
                 Debug.Log("Room Info UI detected");
             }
+            // If it is the GradeInfo it sets the host of the session to become the only person able to see the grade menu
             else if (uiType == UISlotType.GradeInfo)
             {
                 Debug.Log("Grade Info UI detected");
@@ -103,6 +105,7 @@ namespace XRMultiplayer
         }
         void Awake()
         {
+            // Initial startup for the gameObject room 
             GameObject root = gameObject.transform.root.gameObject;
             if (root.name.Contains("Room Info UI"))
             {

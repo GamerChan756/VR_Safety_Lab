@@ -98,7 +98,9 @@ public class TaskTracker : NetworkBehaviour
         // Part that will impact the Auto Grade part of the Grade UI 
 
         GameObject autoText = GameObject.Find("Grade Info UI");
+        // Sets the textBox to the first AutomaticGrade slot in the server (Normally the professor)
         Transform textBox = autoText.transform.Find("CanvasGroup/Player_List_UI/Viewport/Content/Grading_Slot(Clone)/AutomaticGrade");
+        // Sets the currentGrade amount as the class score for the lobby 
         TMP_InputField text = textBox.GetComponent<TMP_InputField>();
         text.text = currentGrade.ToString();
 
