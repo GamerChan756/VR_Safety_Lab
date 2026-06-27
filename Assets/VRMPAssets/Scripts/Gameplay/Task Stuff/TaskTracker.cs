@@ -3,6 +3,8 @@ using Unity.Netcode;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using TMPro;
+using XRMultiplayer;
 
 public class TaskTracker : NetworkBehaviour
 {
@@ -92,6 +94,13 @@ public class TaskTracker : NetworkBehaviour
 
         //Debug.Log ($"Tasks Completed {tasksCompleted}, current grade {currentGrade} / {maximumGrade}");
         //Debug.Log ("TaskList: \n" + listOfTasks);
+
+        // Part that will impact the Auto Grade part of the Grade UI 
+
+        GameObject autoText = GameObject.Find("Grade Info UI");
+        Transform textBox = autoText.transform.Find("CanvasGroup/Player_List_UI/Viewport/Content/Grading_Slot(Clone)/AutomaticGrade");
+        TMP_InputField text = textBox.GetComponent<TMP_InputField>();
+        text.text = currentGrade.ToString();
 
         // updates anything that uses the task lists
         taskListUpdated.Invoke (listOfTasks);

@@ -16,6 +16,7 @@ namespace XRMultiplayer
         [SerializeField] bool m_AutoInitializeCallbacks = true;
 
         readonly Dictionary<PlayerSlot, XRINetworkPlayer> m_PlayerDictionary = new();
+        public int PlayerCount;
 
         bool m_CallbacksInitialized = false;
 
@@ -134,7 +135,6 @@ namespace XRMultiplayer
                     // If Connected via sessions, use the session's max players
                     if (XRINetworkGameManager.Instance.sessionManager.currentSession != null)
                         maxPlayers = XRINetworkGameManager.Instance.sessionManager.currentSession.MaxPlayers;
-
                     m_PlayerCountText.text = $"{m_PlayerDictionary.Keys.Count}/{maxPlayers}";
                 }
             }
