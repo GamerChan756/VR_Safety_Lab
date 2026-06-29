@@ -105,7 +105,8 @@ public class SimpleRepairable : NetworkBehaviour
                 if (!tool.IsOn) tool = null;
             }
             else if (resetRepairTimeOnLeave && !isFixed) {
-                currentRepairTime = 0; // if its set to reset when the tool leaves the object, then reset it
+                //currentRepairTime = 0; // if its set to reset when the tool leaves the object, then reset it
+                currentRepairTime = MathF.Max(currentRepairTime - Time.deltaTime, 0);
             }
 
             if (progressIndicator != null && progressIndicatorEndPoint) {
