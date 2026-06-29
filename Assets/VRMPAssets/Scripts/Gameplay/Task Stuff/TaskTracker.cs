@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
 using XRMultiplayer;
+using System;
 
 public class TaskTracker : MonoBehaviour
 {
@@ -98,11 +99,16 @@ public class TaskTracker : MonoBehaviour
         // Part that will impact the Auto Grade part of the Grade UI 
 
         GameObject autoText = GameObject.Find("Grade Info UI");
-        // Sets the textBox to the first AutomaticGrade slot in the server (Normally the professor)
-        Transform textBox = autoText.transform.Find("CanvasGroup/Player_List_UI/Viewport/Content/Grading_Slot(Clone)/AutomaticGrade");
-        // Sets the currentGrade amount as the class score for the lobby 
-        TMP_InputField text = textBox.GetComponent<TMP_InputField>();
-        text.text = currentGrade.ToString();
+        if (autoText != null) {
+            // Sets the textBox to the first AutomaticGrade slot in the server (Normally the professor)
+            Transform textBox = autoText.transform.Find ("CanvasGroup/Player_List_UI/Viewport/Content/Grading_Slot(Clone)/AutomaticGrade");
+            // Sets the currentGrade amount as the class score for the lobby 
+            if (textBox != null) {
+                TMP_InputField text = textBox.GetComponent<TMP_InputField> ();
+                text.text = currentGrade.ToString ();
+            }
+            //Console.WriteLine ("Found Grading Info");
+        }
 
         // updates anything that uses the task lists
         taskListUpdated.Invoke (listOfTasks);
