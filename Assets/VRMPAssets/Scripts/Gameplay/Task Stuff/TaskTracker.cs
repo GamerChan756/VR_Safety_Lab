@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using TMPro;
 using XRMultiplayer;
 
-public class TaskTracker : NetworkBehaviour
+public class TaskTracker : MonoBehaviour
 {
 
     //[SerializeField]

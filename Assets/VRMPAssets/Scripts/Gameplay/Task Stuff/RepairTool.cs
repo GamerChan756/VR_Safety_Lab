@@ -174,6 +174,7 @@ public enum RToolType {
     WireCutter = 1<<2,
     ScrewDriver = 1<<3,
     Screw = 1<<4,
+    Pipe = 1<<5,
 
     //Everything = (1<<30)-1,
 }

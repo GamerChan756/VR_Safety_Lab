@@ -3489,7 +3489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4441d91a53cc30849838660b31dbfd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VRMP::TaskTracker
-  ShowTopMostFoldoutHeaderGroup: 1
   tasks:
   - {fileID: 1747180245}
   - {fileID: 1300321103}
@@ -5032,22 +5031,22 @@ PrefabInstance:
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8.6009
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.0759
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -33.66
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
@@ -5057,7 +5056,7 @@ PrefabInstance:
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
@@ -5072,7 +5071,7 @@ PrefabInstance:
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 4351434187320707948, guid: 8dbd2731a26047942b352a964a78000c,
         type: 3}
